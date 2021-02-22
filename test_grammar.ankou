@@ -1,0 +1,20 @@
+^:
+    a
+    b
+
+a:
+    X c a
+    Y
+
+b:
+    X c b
+    Z
+
+c:
+    c C
+    C
+
+X = "x"
+Y = "y"
+Z = "z"
+C = "c"

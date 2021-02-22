@@ -1,0 +1,1399 @@
+^:
+    goal
+
+additional_bound:
+    AND interface_type
+
+additional_bound_1:
+    AND reference_type_1
+
+additional_bound_list:
+    additional_bound
+    additional_bound additional_bound_list
+
+additional_bound_list_1:
+    additional_bound additional_bound_list_1
+    additional_bound_1
+
+additional_bound_list_opt:
+    -
+    additional_bound_list
+
+additive_expression:
+    additive_expression MINUS multiplicative_expression
+    additive_expression PLUS multiplicative_expression
+    multiplicative_expression
+
+additive_expression_nn:
+    additive_expression_nn MINUS multiplicative_expression
+    additive_expression_nn PLUS multiplicative_expression
+    multiplicative_expression_nn
+    name MINUS multiplicative_expression
+    name PLUS multiplicative_expression
+
+and_expression:
+    and_expression AND equality_expression
+    equality_expression
+
+and_expression_nn:
+    and_expression_nn AND equality_expression
+    equality_expression_nn
+    name AND equality_expression
+
+annotation:
+    marker_annotation
+    normal_annotation
+    single_element_annotation
+
+annotation_type_body:
+    LBRACE RBRACE
+    LBRACE annotation_type_member_declarations RBRACE
+
+annotation_type_declaration:
+    AT INTERFACE IDENTIFIER annotation_type_body
+    annotations AT INTERFACE IDENTIFIER annotation_type_body
+    modifiers AT INTERFACE IDENTIFIER annotation_type_body
+    modifiers annotations AT INTERFACE IDENTIFIER annotation_type_body
+
+annotation_type_element_declaration:
+    modifiers_opt type IDENTIFIER LPAREN RPAREN dims_opt default_value_opt SEMICOLON
+
+annotation_type_member_declaration:
+    annotation_type_element_declaration
+    class_declaration
+    constant_declaration
+    enum_declaration
+    interface_declaration
+
+annotation_type_member_declarations:
+    annotation_type_member_declaration
+    annotation_type_member_declarations annotation_type_member_declaration
+
+annotations:
+    annotation
+    annotations annotation
+
+annotations_opt:
+    -
+    annotations
+
+argument_list:
+    argument_list COMMA expression
+    expression
+
+argument_list_opt:
+    -
+    argument_list
+
+array_access:
+    array_creation_init LBRACK expression RBRACK
+    name LBRACK expression RBRACK
+    primary_no_new_array LBRACK expression RBRACK
+
+array_creation_init:
+    NEW class_or_interface_type dims array_initializer
+    NEW primitive_type dims array_initializer
+
+array_creation_uninit:
+    NEW class_or_interface_type dim_exprs dims_opt
+    NEW primitive_type dim_exprs dims_opt
+
+array_initializer:
+    LBRACE COMMA RBRACE
+    LBRACE RBRACE
+    LBRACE variable_initializers COMMA RBRACE
+    LBRACE variable_initializers RBRACE
+
+array_type:
+    class_or_interface LT type_argument_list_1 DOT name dims
+    class_or_interface LT type_argument_list_1 dims
+    name dims
+    primitive_type dims
+
+assert_statement:
+    ASSERT expression COLON expression SEMICOLON
+    ASSERT expression SEMICOLON
+
+assignment:
+    postfix_expression assignment_operator assignment_expression
+
+assignment_expression:
+    assignment
+    conditional_expression
+
+assignment_expression_nn:
+    assignment
+    conditional_expression_nn
+
+assignment_operator:
+    ANDEQ
+    DIVEQ
+    EQ
+    LSHIFTEQ
+    MINUSEQ
+    MODEQ
+    MULTEQ
+    OREQ
+    PLUSEQ
+    RSHIFTEQ
+    URSHIFTEQ
+    XOREQ
+
+block:
+    LBRACE block_statements_opt RBRACE
+
+block_statement:
+    class_declaration
+    enum_declaration
+    interface_declaration
+    local_variable_declaration_statement
+    statement
+
+block_statements:
+    block_statement
+    block_statements block_statement
+
+block_statements_opt:
+    -
+    block_statements
+
+break_statement:
+    BREAK identifier_opt SEMICOLON
+
+cast_expression:
+    LPAREN name LT type_argument_list_1 DOT class_or_interface_type dims_opt RPAREN unary_expression_not_plus_minus
+    LPAREN name LT type_argument_list_1 dims_opt RPAREN unary_expression_not_plus_minus
+    LPAREN name RPAREN unary_expression_not_plus_minus
+    LPAREN name dims RPAREN unary_expression_not_plus_minus
+    LPAREN primitive_type dims_opt RPAREN unary_expression
+
+catch_clause:
+    CATCH LPAREN catch_formal_parameter RPAREN block
+
+catch_formal_parameter:
+    modifiers_opt catch_type IDENTIFIER
+
+catch_type:
+    catch_type OR name
+    name
+
+catches:
+    catch_clause
+    catches catch_clause
+
+catches_opt:
+    -
+    catches
+
+class_body:
+    LBRACE class_body_declarations_opt RBRACE
+
+class_body_declaration:
+    block
+    class_member_declaration
+    constructor_declaration
+    static_initializer
+
+class_body_declarations:
+    class_body_declaration
+    class_body_declarations class_body_declaration
+
+class_body_declarations_opt:
+    -
+    class_body_declarations
+
+class_body_opt:
+    -
+    class_body
+
+class_declaration:
+    modifiers_opt CLASS IDENTIFIER type_parameters_opt super_opt interfaces_opt class_body
+
+class_instance_creation_expression:
+    NEW class_or_interface_type LPAREN argument_list_opt RPAREN class_body_opt
+    NEW type_arguments class_or_interface_type LPAREN argument_list_opt RPAREN class_body_opt
+    name DOT NEW type_arguments_opt IDENTIFIER type_arguments_opt LPAREN argument_list_opt RPAREN class_body_opt
+    primary DOT NEW type_arguments_opt IDENTIFIER type_arguments_opt LPAREN argument_list_opt RPAREN class_body_opt
+
+class_member_declaration:
+    SEMICOLON
+    enum_declaration
+    field_declaration
+    interface_declaration
+    method_declaration
+    modifiers_opt CLASS IDENTIFIER type_parameters_opt super_opt interfaces_opt class_body
+
+class_or_interface:
+    class_or_interface LT type_argument_list_1 DOT name
+    name
+
+class_or_interface_type:
+    class_or_interface
+    class_or_interface LT GT
+    class_or_interface LT type_argument_list_1
+
+class_type:
+    class_or_interface_type
+
+class_type_list:
+    class_type
+    class_type_list COMMA class_type
+
+compilation_unit:
+    annotations_opt package_declaration import_declarations type_declarations_opt
+    annotations_opt package_declaration type_declarations_opt
+    import_declarations type_declarations_opt
+    type_declarations_opt
+
+conditional_and_expression:
+    conditional_and_expression ANDAND inclusive_or_expression
+    inclusive_or_expression
+
+conditional_and_expression_nn:
+    conditional_and_expression_nn ANDAND inclusive_or_expression
+    inclusive_or_expression_nn
+    name ANDAND inclusive_or_expression
+
+conditional_expression:
+    conditional_or_expression
+    conditional_or_expression QUESTION expression COLON conditional_expression
+
+conditional_expression_nn:
+    conditional_or_expression_nn
+    conditional_or_expression_nn QUESTION expression COLON conditional_expression
+    name QUESTION expression COLON conditional_expression
+
+conditional_or_expression:
+    conditional_and_expression
+    conditional_or_expression OROR conditional_and_expression
+
+conditional_or_expression_nn:
+    conditional_and_expression_nn
+    conditional_or_expression_nn OROR conditional_and_expression
+    name OROR conditional_and_expression
+
+constant_declaration:
+    field_declaration
+
+constant_expression:
+    expression
+
+constructor_body:
+    LBRACE RBRACE
+    LBRACE block_statements RBRACE
+    LBRACE explicit_constructor_invocation RBRACE
+    LBRACE explicit_constructor_invocation block_statements RBRACE
+
+constructor_declaration:
+    modifiers_opt LT type_parameter_list_1 constructor_declarator throws_opt constructor_body
+    modifiers_opt constructor_declarator throws_opt constructor_body
+
+constructor_declarator:
+    simple_name LPAREN formal_parameter_list_opt RPAREN
+
+continue_statement:
+    CONTINUE identifier_opt SEMICOLON
+
+default_value_opt:
+    -
+    DEFAULT element_value
+
+dim_expr:
+    LBRACK expression RBRACK
+
+dim_exprs:
+    dim_expr
+    dim_exprs dim_expr
+
+dims:
+    LBRACK RBRACK
+    dims LBRACK RBRACK
+
+dims_opt:
+    -
+    dims
+
+do_statement:
+    DO statement WHILE LPAREN expression RPAREN SEMICOLON
+
+element_value:
+    conditional_expression
+    element_value_array_initializer
+
+element_value_array_initializer:
+    LBRACE COMMA RBRACE
+    LBRACE RBRACE
+    LBRACE element_value_list COMMA RBRACE
+    LBRACE element_value_list RBRACE
+
+element_value_list:
+    element_value
+    element_value_list COMMA element_value
+
+element_value_pair:
+    IDENTIFIER EQ element_value
+
+element_value_pair_list:
+    element_value_pair
+    element_value_pair_list COMMA element_value_pair
+
+empty_statement:
+    SEMICOLON
+
+enum_arguments_opt:
+    -
+    LPAREN argument_list_opt RPAREN
+
+enum_body:
+    LBRACE enum_constants_opt enum_body_declarations_opt RBRACE
+
+enum_body_declarations_opt:
+    -
+    SEMICOLON class_body_declarations_opt
+
+enum_constant:
+    IDENTIFIER enum_arguments_opt
+    IDENTIFIER enum_arguments_opt class_body
+
+enum_constants:
+    enum_constant
+    enum_constants COMMA enum_constant
+
+enum_constants_opt:
+    -
+    COMMA
+    enum_constants
+    enum_constants COMMA
+
+enum_declaration:
+    modifiers_opt ENUM IDENTIFIER interfaces_opt enum_body
+
+equality_expression:
+    equality_expression EQEQ instanceof_expression
+    equality_expression NOTEQ instanceof_expression
+    instanceof_expression
+
+equality_expression_nn:
+    equality_expression_nn EQEQ instanceof_expression
+    equality_expression_nn NOTEQ instanceof_expression
+    instanceof_expression_nn
+    name EQEQ instanceof_expression
+    name NOTEQ instanceof_expression
+
+exclusive_or_expression:
+    and_expression
+    exclusive_or_expression XOR and_expression
+
+exclusive_or_expression_nn:
+    and_expression_nn
+    exclusive_or_expression_nn XOR and_expression
+    name XOR and_expression
+
+explicit_constructor_invocation:
+    SUPER LPAREN argument_list_opt RPAREN SEMICOLON
+    THIS LPAREN argument_list_opt RPAREN SEMICOLON
+    name DOT SUPER LPAREN argument_list_opt RPAREN SEMICOLON
+    name DOT type_arguments SUPER LPAREN argument_list_opt RPAREN SEMICOLON
+    primary DOT SUPER LPAREN argument_list_opt RPAREN SEMICOLON
+    primary DOT type_arguments SUPER LPAREN argument_list_opt RPAREN SEMICOLON
+    type_arguments SUPER LPAREN argument_list_opt RPAREN SEMICOLON
+    type_arguments THIS LPAREN argument_list_opt RPAREN SEMICOLON
+
+expression:
+    assignment_expression
+
+expression_nn:
+    assignment_expression_nn
+
+expression_opt:
+    -
+    expression
+
+expression_statement:
+    statement_expression SEMICOLON
+
+extends_interfaces:
+    EXTENDS interface_type
+    extends_interfaces COMMA interface_type
+
+extends_interfaces_opt:
+    -
+    extends_interfaces
+
+field_access:
+    SUPER DOT IDENTIFIER
+    name DOT SUPER DOT IDENTIFIER
+    primary DOT IDENTIFIER
+
+field_declaration:
+    modifiers_opt type variable_declarators SEMICOLON
+
+finally:
+    FINALLY block
+
+floating_point_type:
+    DOUBLE
+    FLOAT
+
+for_init:
+    local_variable_declaration
+    statement_expression_list
+
+for_init_opt:
+    -
+    for_init
+
+for_statement:
+    FOR LPAREN for_init_opt SEMICOLON expression_opt SEMICOLON for_update_opt RPAREN statement
+
+for_statement_no_short_if:
+    FOR LPAREN for_init_opt SEMICOLON expression_opt SEMICOLON for_update_opt RPAREN statement_no_short_if
+
+for_update:
+    statement_expression_list
+
+for_update_opt:
+    -
+    for_update
+
+foreach_statement:
+    FOR LPAREN annotations type variable_declarator_id COLON expression RPAREN statement
+    FOR LPAREN modifiers annotations type variable_declarator_id COLON expression RPAREN statement
+    FOR LPAREN modifiers type variable_declarator_id COLON expression RPAREN statement
+    FOR LPAREN type variable_declarator_id COLON expression RPAREN statement
+
+foreach_statement_no_short_if:
+    FOR LPAREN annotations type variable_declarator_id COLON expression RPAREN statement_no_short_if
+    FOR LPAREN modifiers annotations type variable_declarator_id COLON expression RPAREN statement_no_short_if
+    FOR LPAREN modifiers type variable_declarator_id COLON expression RPAREN statement_no_short_if
+    FOR LPAREN type variable_declarator_id COLON expression RPAREN statement_no_short_if
+
+formal_parameter:
+    FINAL type ELLIPSIS IDENTIFIER
+    FINAL type variable_declarator_id
+    type ELLIPSIS IDENTIFIER
+    type variable_declarator_id
+
+formal_parameter_list:
+    formal_parameter
+    formal_parameter_list COMMA formal_parameter
+
+formal_parameter_list_opt:
+    -
+    formal_parameter_list
+
+goal:
+    compilation_unit
+
+identifier_opt:
+    -
+    IDENTIFIER
+
+if_then_else_statement:
+    IF LPAREN expression RPAREN statement_no_short_if ELSE statement
+
+if_then_else_statement_no_short_if:
+    IF LPAREN expression RPAREN statement_no_short_if ELSE statement_no_short_if
+
+if_then_statement:
+    IF LPAREN expression RPAREN statement
+
+import_declaration:
+    single_type_import_declaration
+    static_single_type_import_declaration
+    static_type_import_on_demand_declaration
+    type_import_on_demand_declaration
+
+import_declarations:
+    import_declaration
+    import_declarations import_declaration
+
+inclusive_or_expression:
+    exclusive_or_expression
+    inclusive_or_expression OR exclusive_or_expression
+
+inclusive_or_expression_nn:
+    exclusive_or_expression_nn
+    inclusive_or_expression_nn OR exclusive_or_expression
+    name OR exclusive_or_expression
+
+instanceof_expression:
+    instanceof_expression INSTANCEOF reference_type
+    relational_expression
+
+instanceof_expression_nn:
+    instanceof_expression_nn INSTANCEOF reference_type
+    name INSTANCEOF reference_type
+    relational_expression_nn
+
+integral_type:
+    BYTE
+    CHAR
+    INT
+    LONG
+    SHORT
+
+interface_body:
+    LBRACE interface_member_declarations_opt RBRACE
+
+interface_declaration:
+    annotation_type_declaration
+    normal_interface_declaration
+
+interface_member_declaration:
+    SEMICOLON
+    class_declaration
+    constant_declaration
+    enum_declaration
+    interface_declaration
+    interface_method_declaration
+
+interface_member_declarations:
+    interface_member_declaration
+    interface_member_declarations interface_member_declaration
+
+interface_member_declarations_opt:
+    -
+    interface_member_declarations
+
+interface_method_declaration:
+    method_header SEMICOLON
+
+interface_type:
+    class_or_interface_type
+
+interface_type_list:
+    interface_type
+    interface_type_list COMMA interface_type
+
+interfaces:
+    IMPLEMENTS interface_type_list
+
+interfaces_opt:
+    -
+    interfaces
+
+labeled_statement:
+    IDENTIFIER COLON statement
+
+labeled_statement_no_short_if:
+    IDENTIFIER COLON statement_no_short_if
+
+literal:
+    BOOLEAN_LITERAL
+    CHARACTER_LITERAL
+    FLOATING_POINT_LITERAL
+    INTEGER_LITERAL
+    NULL_LITERAL
+    STRING_LITERAL
+
+local_variable_declaration:
+    annotations type variable_declarators
+    modifiers annotations type variable_declarators
+    modifiers type variable_declarators
+    type variable_declarators
+
+local_variable_declaration_statement:
+    local_variable_declaration SEMICOLON
+
+marker_annotation:
+    AT name
+
+method_body:
+    SEMICOLON
+    block
+
+method_declaration:
+    method_header method_body
+
+method_declarator:
+    IDENTIFIER LPAREN formal_parameter_list_opt RPAREN
+    method_declarator LBRACK RBRACK
+
+method_header:
+    modifiers_opt LT type_parameter_list_1 VOID method_declarator throws_opt
+    modifiers_opt LT type_parameter_list_1 type method_declarator throws_opt
+    modifiers_opt VOID method_declarator throws_opt
+    modifiers_opt type method_declarator throws_opt
+
+method_invocation:
+    SUPER DOT IDENTIFIER LPAREN argument_list_opt RPAREN
+    SUPER DOT type_arguments IDENTIFIER LPAREN argument_list_opt RPAREN
+    name DOT SUPER DOT IDENTIFIER LPAREN argument_list_opt RPAREN
+    name DOT SUPER DOT type_arguments IDENTIFIER LPAREN argument_list_opt RPAREN
+    name DOT type_arguments IDENTIFIER LPAREN argument_list_opt RPAREN
+    primary DOT IDENTIFIER LPAREN argument_list_opt RPAREN
+    primary DOT type_arguments IDENTIFIER LPAREN argument_list_opt RPAREN
+    qualified_name LPAREN argument_list_opt RPAREN
+    simple_name LPAREN argument_list_opt RPAREN
+
+modifier:
+    ABSTRACT
+    FINAL
+    NATIVE
+    PRIVATE
+    PROTECTED
+    PUBLIC
+    STATIC
+    STRICTFP
+    SYNCHRONIZED
+    TRANSIENT
+    VOLATILE
+
+modifiers:
+    annotations modifier
+    modifier
+    modifiers modifier
+
+modifiers_opt:
+    -
+    annotations
+    modifiers
+    modifiers annotations
+
+multiplicative_expression:
+    multiplicative_expression DIV unary_expression
+    multiplicative_expression MOD unary_expression
+    multiplicative_expression MULT unary_expression
+    unary_expression
+
+multiplicative_expression_nn:
+    multiplicative_expression_nn DIV unary_expression
+    multiplicative_expression_nn MOD unary_expression
+    multiplicative_expression_nn MULT unary_expression
+    name DIV unary_expression
+    name MOD unary_expression
+    name MULT unary_expression
+    unary_expression_nn
+
+name:
+    qualified_name
+    simple_name
+
+normal_annotation:
+    AT name LPAREN RPAREN
+    AT name LPAREN element_value_pair_list RPAREN
+
+normal_interface_declaration:
+    modifiers_opt INTERFACE IDENTIFIER type_parameters_opt extends_interfaces_opt interface_body
+
+numeric_type:
+    floating_point_type
+    integral_type
+
+package_declaration:
+    PACKAGE name SEMICOLON
+
+postdecrement_expression:
+    postfix_expression MINUSMINUS
+
+postfix_expression:
+    name
+    postdecrement_expression
+    postincrement_expression
+    primary
+
+postfix_expression_nn:
+    postdecrement_expression
+    postincrement_expression
+    primary
+
+postincrement_expression:
+    postfix_expression PLUSPLUS
+
+predecrement_expression:
+    MINUSMINUS unary_expression
+
+preincrement_expression:
+    PLUSPLUS unary_expression
+
+primary:
+    array_creation_init
+    array_creation_uninit
+    primary_no_new_array
+
+primary_no_new_array:
+    LPAREN expression_nn RPAREN
+    LPAREN name RPAREN
+    THIS
+    VOID DOT CLASS
+    array_access
+    class_instance_creation_expression
+    field_access
+    literal
+    method_invocation
+    name DOT CLASS
+    name DOT THIS
+    name dims DOT CLASS
+    primitive_type DOT CLASS
+    primitive_type dims DOT CLASS
+
+primitive_type:
+    BOOLEAN
+    numeric_type
+
+qualified_name:
+    name DOT IDENTIFIER
+
+reference_type:
+    array_type
+    class_or_interface_type
+
+reference_type_1:
+    class_or_interface LT type_argument_list_2
+    reference_type GT
+
+reference_type_2:
+    class_or_interface LT type_argument_list_3
+    reference_type RSHIFT
+
+reference_type_3:
+    reference_type URSHIFT
+
+relational_expression:
+    relational_expression GT shift_expression
+    relational_expression GTEQ shift_expression
+    relational_expression LT shift_expression
+    relational_expression LTEQ shift_expression
+    shift_expression
+
+relational_expression_nn:
+    name GT shift_expression
+    name GTEQ shift_expression
+    name LT shift_expression
+    name LTEQ shift_expression
+    relational_expression_nn GTEQ shift_expression
+    relational_expression_nn LTEQ shift_expression
+    shift_expression_nn
+    shift_expression_nn GT shift_expression
+    shift_expression_nn LT shift_expression
+
+resource:
+    FINAL type variable_declarator_id EQ expression
+    annotation FINAL type variable_declarator_id EQ expression
+    annotation type variable_declarator_id EQ expression
+    type variable_declarator_id EQ expression
+
+resource_list:
+    resource
+    resource_list SEMICOLON resource
+
+resource_specification:
+    LPAREN resource_list RPAREN
+    LPAREN resource_list SEMICOLON RPAREN
+
+return_statement:
+    RETURN expression_opt SEMICOLON
+
+shift_expression:
+    additive_expression
+    shift_expression LSHIFT additive_expression
+    shift_expression RSHIFT additive_expression
+    shift_expression URSHIFT additive_expression
+
+shift_expression_nn:
+    additive_expression_nn
+    name LSHIFT additive_expression
+    name RSHIFT additive_expression
+    name URSHIFT additive_expression
+    shift_expression_nn LSHIFT additive_expression
+    shift_expression_nn RSHIFT additive_expression
+    shift_expression_nn URSHIFT additive_expression
+
+simple_name:
+    IDENTIFIER
+
+single_element_annotation:
+    AT name LPAREN element_value RPAREN
+
+single_type_import_declaration:
+    IMPORT name SEMICOLON
+
+statement:
+    for_statement
+    foreach_statement
+    if_then_else_statement
+    if_then_statement
+    labeled_statement
+    statement_without_trailing_substatement
+    while_statement
+
+statement_expression:
+    assignment
+    class_instance_creation_expression
+    method_invocation
+    postdecrement_expression
+    postincrement_expression
+    predecrement_expression
+    preincrement_expression
+
+statement_expression_list:
+    statement_expression
+    statement_expression_list COMMA statement_expression
+
+statement_no_short_if:
+    for_statement_no_short_if
+    foreach_statement_no_short_if
+    if_then_else_statement_no_short_if
+    labeled_statement_no_short_if
+    statement_without_trailing_substatement
+    while_statement_no_short_if
+
+statement_without_trailing_substatement:
+    assert_statement
+    block
+    break_statement
+    continue_statement
+    do_statement
+    empty_statement
+    expression_statement
+    return_statement
+    switch_statement
+    synchronized_statement
+    throw_statement
+    try_statement
+
+static_initializer:
+    STATIC block
+
+static_single_type_import_declaration:
+    IMPORT STATIC name SEMICOLON
+
+static_type_import_on_demand_declaration:
+    IMPORT STATIC name DOT MULT SEMICOLON
+
+super:
+    EXTENDS class_type
+
+super_opt:
+    -
+    super
+
+switch_block:
+    LBRACE RBRACE
+    LBRACE switch_block_statement_groups RBRACE
+    LBRACE switch_block_statement_groups switch_labels RBRACE
+    LBRACE switch_labels RBRACE
+
+switch_block_statement_group:
+    switch_labels block_statements
+
+switch_block_statement_groups:
+    switch_block_statement_group
+    switch_block_statement_groups switch_block_statement_group
+
+switch_label:
+    CASE constant_expression COLON
+    DEFAULT COLON
+
+switch_labels:
+    switch_label
+    switch_labels switch_label
+
+switch_statement:
+    SWITCH LPAREN expression RPAREN switch_block
+
+synchronized_statement:
+    SYNCHRONIZED LPAREN expression RPAREN block
+
+throw_statement:
+    THROW expression SEMICOLON
+
+throws:
+    THROWS class_type_list
+
+throws_opt:
+    -
+    throws
+
+try_statement:
+    TRY block catches
+    TRY block catches_opt finally
+    try_with_resource_statement
+
+try_with_resource_statement:
+    TRY resource_specification block catches_opt
+    TRY resource_specification block catches_opt finally
+
+type:
+    primitive_type
+    reference_type
+
+type_argument:
+    reference_type
+    wildcard
+
+type_argument_1:
+    reference_type_1
+    wildcard_1
+
+type_argument_2:
+    reference_type_2
+    wildcard_2
+
+type_argument_3:
+    reference_type_3
+    wildcard_3
+
+type_argument_list:
+    type_argument
+    type_argument_list COMMA type_argument
+
+type_argument_list_1:
+    type_argument_1
+    type_argument_list COMMA type_argument_1
+
+type_argument_list_2:
+    type_argument_2
+    type_argument_list COMMA type_argument_2
+
+type_argument_list_3:
+    type_argument_3
+    type_argument_list COMMA type_argument_3
+
+type_arguments:
+    LT GT
+    LT type_argument_list_1
+
+type_arguments_opt:
+    -
+    type_arguments
+
+type_bound:
+    EXTENDS reference_type additional_bound_list_opt
+
+type_bound_1:
+    EXTENDS reference_type additional_bound_list_1
+    EXTENDS reference_type_1
+
+type_bound_opt:
+    -
+    type_bound
+
+type_declaration:
+    SEMICOLON
+    class_declaration
+    enum_declaration
+    interface_declaration
+
+type_declarations:
+    type_declaration
+    type_declarations type_declaration
+
+type_declarations_opt:
+    -
+    type_declarations
+
+type_import_on_demand_declaration:
+    IMPORT name DOT MULT SEMICOLON
+
+type_parameter:
+    type_variable type_bound_opt
+
+type_parameter_1:
+    type_variable GT
+    type_variable type_bound_1
+
+type_parameter_list:
+    type_parameter
+    type_parameter_list COMMA type_parameter
+
+type_parameter_list_1:
+    type_parameter_1
+    type_parameter_list COMMA type_parameter_1
+
+type_parameters:
+    LT type_parameter_list_1
+
+type_parameters_opt:
+    -
+    type_parameters
+
+type_variable:
+    IDENTIFIER
+
+unary_expression:
+    MINUS unary_expression
+    PLUS unary_expression
+    predecrement_expression
+    preincrement_expression
+    unary_expression_not_plus_minus
+
+unary_expression_nn:
+    MINUS unary_expression
+    PLUS unary_expression
+    predecrement_expression
+    preincrement_expression
+    unary_expression_not_plus_minus_nn
+
+unary_expression_not_plus_minus:
+    COMP unary_expression
+    NOT unary_expression
+    cast_expression
+    postfix_expression
+
+unary_expression_not_plus_minus_nn:
+    COMP unary_expression
+    NOT unary_expression
+    cast_expression
+    postfix_expression_nn
+
+variable_declarator:
+    variable_declarator_id
+    variable_declarator_id EQ variable_initializer
+
+variable_declarator_id:
+    IDENTIFIER
+    variable_declarator_id LBRACK RBRACK
+
+variable_declarators:
+    variable_declarator
+    variable_declarators COMMA variable_declarator
+
+variable_initializer:
+    array_initializer
+    expression
+
+variable_initializers:
+    variable_initializer
+    variable_initializers COMMA variable_initializer
+
+while_statement:
+    WHILE LPAREN expression RPAREN statement
+
+while_statement_no_short_if:
+    WHILE LPAREN expression RPAREN statement_no_short_if
+
+wildcard:
+    QUESTION
+    QUESTION EXTENDS reference_type
+    QUESTION SUPER reference_type
+
+wildcard_1:
+    QUESTION EXTENDS reference_type_1
+    QUESTION GT
+    QUESTION SUPER reference_type_1
+
+wildcard_2:
+    QUESTION EXTENDS reference_type_2
+    QUESTION RSHIFT
+    QUESTION SUPER reference_type_2
+
+wildcard_3:
+    QUESTION EXTENDS reference_type_3
+    QUESTION SUPER reference_type_3
+    QUESTION URSHIFT
+
+
+BOOLEAN = r'boolean'
+    example 'boolean'
+
+BYTE = r'byte'
+    example 'byte'
+
+SHORT = r'short'
+    example 'short'
+
+INT = r'int'
+    example 'int'
+
+LONG = r'long'
+    example 'long'
+
+CHAR = r'char'
+    example 'char'
+
+FLOAT = r'float'
+    example 'float'
+
+DOUBLE = r'double'
+    example 'double'
+
+LBRACK = r'\['
+    example '['
+
+RBRACK = r'\]'
+    example ']'
+
+ELLIPSIS = r'\.\.\.'
+    example '...'
+
+DOT = r'\.'
+    example '.'
+
+SEMICOLON = r';'
+    example ';'
+
+MULT = r'\*'
+    example '*'
+
+COMMA = r','
+    example ','
+
+LBRACE = r'\{'
+    example '{'
+
+RBRACE = r'\}'
+    example '}'
+
+EQ = r'='
+    example '='
+
+LPAREN = r'\('
+    example '('
+
+RPAREN = r'\)'
+    example ')'
+
+COLON = r':'
+    example ':'
+
+AT = r'@'
+    example '@'
+
+PACKAGE = r'package'
+    example 'package'
+
+IMPORT = r'import'
+    example 'import'
+
+PUBLIC = r'public'
+    example 'public'
+
+PROTECTED = r'protected'
+    example 'protected'
+
+PRIVATE = r'private'
+    example 'private'
+
+STATIC = r'static'
+    example 'static'
+
+ABSTRACT = r'abstract'
+    example 'abstract'
+
+FINAL = r'final'
+    example 'final'
+
+NATIVE = r'native'
+    example 'native'
+
+SYNCHRONIZED = r'synchronized'
+    example 'synchronized'
+
+TRANSIENT = r'transient'
+    example 'transient'
+
+VOLATILE = r'volatile'
+    example 'volatile'
+
+STRICTFP = r'strictfp'
+    example 'strictfp'
+
+CLASS = r'class'
+    example 'class'
+
+ENUM = r'enum'
+    example 'enum'
+
+EXTENDS = r'extends'
+    example 'extends'
+
+IMPLEMENTS = r'implements'
+    example 'implements'
+
+VOID = r'void'
+    example 'void'
+
+THROWS = r'throws'
+    example 'throws'
+
+THIS = r'this'
+    example 'this'
+
+SUPER = r'super'
+    example 'super'
+
+INTERFACE = r'interface'
+    example 'interface'
+
+IF = r'if'
+    example 'if'
+
+ELSE = r'else'
+    example 'else'
+
+SWITCH = r'switch'
+    example 'switch'
+
+CASE = r'case'
+    example 'case'
+
+DEFAULT = r'default'
+    example 'default'
+
+DO = r'do'
+    example 'do'
+
+WHILE = r'while'
+    example 'while'
+
+FOR = r'for'
+    example 'for'
+
+BREAK = r'break'
+    example 'break'
+
+CONTINUE = r'continue'
+    example 'continue'
+
+RETURN = r'return'
+    example 'return'
+
+THROW = r'throw'
+    example 'throw'
+
+TRY = r'try'
+    example 'try'
+
+CATCH = r'catch'
+    example 'catch'
+
+FINALLY = r'finally'
+    example 'finally'
+
+ASSERT = r'assert'
+    example 'assert'
+
+NEW = r'new'
+    example 'new'
+
+PLUSPLUS = r'\+\+'
+    example '++'
+
+MINUSMINUS = r'--'
+    example '--'
+
+PLUS = r'\+'
+    example '+'
+
+MINUS = r'-'
+    example '-'
+
+COMP = r'~'
+    example '~'
+
+NOT = r'!'
+    example '!'
+
+DIV = r'/'
+    example '/'
+
+MOD = r'%'
+    example '%'
+
+LSHIFT = r'<<'
+    example '<<'
+
+RSHIFT = r'>>'
+    example '>>'
+
+URSHIFT = r'>>>'
+    example '>>>'
+
+LSHIFTEQ = r'<<='
+    example '<<='
+
+RSHIFTEQ = r'>>='
+    example '>>='
+
+URSHIFTEQ = r'>>>='
+    example '>>>='
+
+LTEQ = r'<='
+    example '<='
+
+GTEQ = r'>='
+    example '>='
+
+LT = r'<'
+    example '<'
+
+GT = r'>'
+    example '>'
+
+INSTANCEOF = r'instanceof'
+    example 'instanceof'
+
+EQEQ = r'=='
+    example '=='
+
+NOTEQ = r'!='
+    example '!='
+
+ANDAND = r'&&'
+    example '&&'
+
+OROR = r'\|\|'
+    example '||'
+
+AND = r'&'
+    example '&'
+
+XOR = r'\^'
+    example '^'
+
+OR = r'\|'
+    example '|'
+
+QUESTION = r'\?'
+    example '?'
+
+MULTEQ = r'\*='
+    example '*='
+
+DIVEQ = r'/='
+    example '/='
+
+MODEQ = r'%='
+    example '%='
+
+PLUSEQ = r'\+='
+    example '+='
+
+MINUSEQ = r'-='
+    example '-='
+
+ANDEQ = r'&='
+    example '&='
+
+XOREQ = r'\^='
+    example '^='
+
+OREQ = r'\|='
+    example '|='
+
+FLOATING_POINT_LITERAL = r'[0-9]+\.[0-9]*([eE][+-]?[0-9]+)?[fFdD]?|\.[0-9]+([eE][+-]?[0-9]+)?[fFdD]?|[0-9]+[eE][+-]?[0-9]+[fFdD]?|[0-9]+[fFdD]|0[xX][0-9A-Fa-f]+(\.[0-9A-Fa-f]*)?[pP][+-]?[0-9]+[fFdD]?'
+    example '1.0'
+
+INTEGER_LITERAL = r'(0_[0-7]+|[0-9][0-9_]+[0-9]|0[bB][01]+|0[xX][0-9A-Fa-f]+|[0-9]+)[lL]?'
+    example '42'
+
+BOOLEAN_LITERAL = r'(true|false)'
+    example 'true'
+
+NULL_LITERAL = r'null'
+    example 'null'
+
+IDENTIFIER = r'[\w_][\w_0-9]*'
+    example 'foo'
+
+CHARACTER_LITERAL = r'\'([^\t\n\r\f\\\'\\]|\\[tnfr\'"\\]|\\[0-3][0-7][0-7]|\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])\''
+    example "'x'"
+
+STRING_LITERAL = r'"(?:\\\\|\\"|[^"\n])*"'
+    example '"foo"'
+
+IGNORE = r'/[*].*?[*]/'
+IGNORE = r'//[^\n]*?$'
+IGNORE = r'[ \t\n\r]+'

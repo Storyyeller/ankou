@@ -1,0 +1,19 @@
+^
+    expr
+
+expr
+    multexpr AT expr
+    multexpr
+
+multexpr
+    multexpr MULT addexpr
+    addexpr
+
+addexpr
+    addexpr PLUS primary
+    primary
+
+primary
+    IDENTIFIER
+    IDENTIFIER XOR
+    LPAREN expr RPAREN

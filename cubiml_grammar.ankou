@@ -1,0 +1,350 @@
+^:
+    toplevelitem_list
+
+toplevelitem_list:
+    toplevelitem_list SC toplevelitem
+    toplevelitem
+
+toplevelitem:
+    letlhs
+    letreclhs
+    toplevelexpr
+    comment toplevelitem
+
+expr:
+    toplevelexpr
+    comment expr
+
+toplevelexpr:
+    compareexpr
+    funcdef
+    if
+    let
+    letrec
+    match
+    refset
+
+compareexpr:
+    addexpr
+    cmpop
+
+addexpr:
+    multexpr
+    addop
+
+multexpr:
+    callexpr
+    multop
+
+callexpr:
+    caseexpr
+    call
+
+caseexpr:
+    refexpr
+    case
+    newref
+
+refexpr:
+    simpleexpr
+    refget
+
+simpleexpr:
+    fieldaccess
+    record
+    varorliteral
+    LPAREN expr RPAREN
+    LPAREN expr COLON type RPAREN
+
+
+type:
+    nofuntype
+    functype
+
+nofuntype:
+    ID
+    nofuntype AS typevar
+    typevar
+    recordtype
+    casetype
+    reftype
+    nullabletype
+    LPAREN type RPAREN
+
+typevar:
+    QUOTE ID
+
+nullabletype:
+    nofuntype QMARK
+
+reftype:
+    nofuntype refreadability
+
+refreadability:
+    READONLY REF
+    WRITEONLY REF
+    REF
+
+functype:
+    functypesub
+
+functypesub:
+    nofuntype ARROW type
+
+casetype:
+    casetypesub
+
+casetypesub:
+    LBRACKET casetypeextension_opt varianttype_list RBRACKET
+
+varianttype_list:
+    varianttype_list PIPE varianttype
+    varianttype
+
+varianttype:
+    TAG OF nofuntype
+
+casetypeextension_opt:
+    -
+    casetypeextension
+
+casetypeextension:
+    type PIPE
+
+recordtype:
+    recordtypesub
+
+recordtypesub:
+    # LBRACE recordtypeextension_opt keypairtype_list RBRACE
+    LBRACE type WITH keypairtype_list RBRACE
+    LBRACE keypairtype_list RBRACE
+
+keypairtype_list:
+    keypairtype_list SC keypairtype
+    keypairtype
+
+keypairtype:
+    ID COLON type
+
+
+
+
+cmpop:
+    addexpr cmpopsub addexpr
+
+cmpopsub:
+    LT
+    LEQ
+    GT
+    GEQ
+    EQEQ
+    NEQ
+
+addop:
+    addexpr addopsub multexpr
+
+addopsub:
+    PLUS
+    MINUS
+    PLUSDOT
+    MINUSDOT
+    XOR
+
+multop:
+    multexpr multopsub callexpr
+
+multopsub:
+    STAR
+    DIV
+    MOD
+    STARDOT
+    DIVDOT
+    MODDOT
+
+
+refset:
+    callexpr COLEQ expr
+
+refget:
+    NOT refexpr
+
+newref:
+    REF caseexpr
+
+
+letrec:
+    letreclhs letrhs
+
+letreclhs:
+    LET REC letrecdef_list
+
+letrecdef_list:
+    letrecdef_list AND letrecdef
+    letrecdef
+
+letrecdef:
+    ID EQ comments funcdef
+
+comments:
+    -
+    comments comment
+
+
+let:
+    letlhs letrhs
+
+letrhs:
+    IN expr
+
+letlhs:
+    LET letpattern EQ expr
+
+letpattern:
+    ID
+
+
+match:
+    matchsub
+
+matchsub:
+    MATCH expr WITH matcharms
+
+matcharms:
+    matcharms matcharm
+    matcharm
+
+matcharm:
+    comments PIPE matchpattern ARROW compareexpr
+
+matchpattern:
+    TAG ID
+    ID
+
+case:
+    TAG caseexpr
+
+fieldaccess:
+    simpleexpr DOT ID
+
+record:
+    recordsub
+
+recordsub:
+    # LBRACE recordextension_opt keypairexpr_list_opt RBRACE
+    LBRACE callexpr WITH keypairexpr_list_opt RBRACE
+    LBRACE keypairexpr_list_opt RBRACE
+    LBRACE comments comment keypairexpr_list_opt RBRACE
+
+keypairexpr_list_opt:
+    -
+    keypairexpr_list
+
+keypairexpr_list:
+    keypairexpr_list SC comments keypairexpr
+    keypairexpr
+
+keypairexpr:
+    # comments ID EQ expr
+    ID EQ expr
+
+
+
+call:
+    callexpr caseexpr
+
+funcdef:
+    funcsub
+
+funcsub:
+    FUN ID ARROW expr
+
+if:
+    IF expr THEN expr ELSE expr
+
+varorliteral:
+    ID
+    FLOATLIT
+    INTLIT
+    STRINGLIT
+
+comment:
+    COMMENT_START COMMENT_END
+
+
+
+# Token definitions
+AND = "and"
+ARROW = "->"
+AS = "as"
+COLEQ = ":="
+COLON = ":"
+DIV = "/"
+DIVDOT  = "/."
+DOT = "."
+ELSE = "else"
+EQ = "="
+EQEQ = "=="
+FUN = "fun"
+GEQ = ">="
+GT = ">"
+IF = "if"
+IN = "in"
+LBRACE = "{"
+LBRACKET = "["
+LEQ = "<="
+LET = "let"
+LPAREN = "("
+LT = "<"
+MATCH = "match"
+MINUS = "-"
+MINUSDOT = "-."
+MOD = "%"
+MODDOT = "%."
+NEQ = "!="
+NOT = "!"
+OF = "of"
+PIPE = "|"
+PLUS = "+"
+PLUSDOT = "+."
+QMARK = "?"
+QUOTE = "'"
+RBRACE = "}"
+RBRACKET = "]"
+READONLY = "readonly"
+REC = "rec"
+REF = "ref"
+RPAREN = ")"
+SC = ";"
+STAR = "*"
+STARDOT = "*."
+THEN = "then"
+WITH = "with"
+WRITEONLY = "writeonly"
+XOR = "^"
+
+
+COMMENT_START = r"\(\*[^*]*"
+    example "(*"
+COMMENT_END = "*)"
+
+
+ID = r"[a-z_]\w*"
+    example "foo"
+
+TAG = r"`[A-Z0-9]\w*"
+    example "`Foo"
+
+INTLIT = r"-?(?:0|[1-9][0-9]*)"
+    example "42"
+
+FLOATLIT = r"-?(?:0|[1-9][0-9]*)\.[0-9]*(?:[eE]-?[0-9]+)?"
+    example "1.0"
+
+STRINGLIT = r'''"[^\\"\n\r]*(?:\\[tn'"\\][^\\"\n\r]*)*"'''
+    example '""'
+
+ILLEGAL = "__proto__"
+ILLEGAL = r"0\d"
+ILLEGAL = r'"[^"]*'
+IGNORE = r"\s+"
+ILLEGAL = r"\S"
